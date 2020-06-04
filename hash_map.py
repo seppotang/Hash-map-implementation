@@ -117,11 +117,15 @@ class HashMap:
             if(self._buckets[i].size > 1):
                 cur = self._buckets[i].head
                 prev = self._buckets[i].head
-                while(cur.next != None):
+                while(cur != None):
                     cur = cur.next
                     prev = None
             else:
                 self._buckets[i] = None
+        self._buckets = []
+        for i in range(self.capacity):
+            self._buckets.append(LinkedList())
+        self.size = 0
                 
             
     def get(self, key):
@@ -133,8 +137,19 @@ class HashMap:
             The value associated to the key. None if the link isn't found.
         """
         # FIXME: Write this function
-        return self._hash_function(key)
-        
+        index = self._hash_function(key) % self.capacity
+        if(self._buckets[index].size > 1):
+            cur = self._buckets[index].head
+            while(cur != None):
+                if(cur.key == key):
+                    return cur.value
+                cur = cur.next
+        elif(self._buckets[index].size == 1):
+            #if(self._buckets[index].head.key == key):
+            return self._buckets[index].head.value
+        else:
+            return None
+            
     def resize_table(self, capacity):
         """
         Resizes the hash table to have a number of buckets equal to the given
@@ -163,26 +178,19 @@ class HashMap:
             value: the value associated with the entry
         """
         # FIXME: Write this function
-        counter = 0
-        for i in range(self.size):
-            counter = i
-            if(self._buckets[i].contains(key)):
-                cur = self._buckets[i].head
-                if(self._buckets[i].size == 1):
-                    cur.value = value
-                else:
-                    while(i != self._buckets[i].size):
-                        if(cur.key == key):
-                            cur.value = value
-                            return True
-                        else:
-                            cur = cur.next
-        
-        #Didn't return from function, continue to add value
-        if(counter+1 >= self.capacity):
-            self.resize_table(self.capacity*2)
-        self._buckets[counter+1].add_front(key,value)
-        self.size+=1
+        index = self._hash_function(key) % self.capacity
+        if(self._buckets[index].contains(key)):
+            if(self._buckets[index].size > 1):
+                cur = self._buckets[index].head
+                while(cur != None):
+                    if(cur.key == key):
+                        cur.value = value
+                        break
+            else:
+                self._buckets[index].head.value = value
+        else:
+            self.size+=1
+            self._buckets[index].add_front(key,value)
         
     def remove(self, key):
         """
@@ -193,25 +201,9 @@ class HashMap:
             key: they key to search for and remove along with its value
         """
         # FIXME: Write this function
-        for i in range(self.size):
-            if(self._buckets[i].next != None):
-                #Process links
-                cur = self._buckets[i]
-                prev = self._buckets[i]
-                while( cur.next != None):
-                    if(cur.val == self._hash_function(key)):
-                        #De-link
-                        prev.next = cur.next
-                        cur = None
-                        break
-                    else:
-                        prev = cur
-                        cur = cur.next
-            elif(self._buckets[i].value == self._hash_function(key)):
-                #Remove link 
-                self._buckets[i] = None
-                #Link found, ok to break
-                break
+        for i in range(self.capacity):
+            if(self._buckets[i].remove(key)):
+                self.size -=1
             
     def contains_key(self, key):
         """
@@ -222,18 +214,8 @@ class HashMap:
 
         """
         # FIXME: Write this function
-        for i in range(self.size):
-            if(self._buckets[i].next != None):
-                #Process links
-                cur = self._buckets[i]
-                prev = self._buckets[i]
-                while( cur.next != None):
-                    if(cur.val == self._hash_function(key)):
-                        return True
-                    else:
-                        prev = cur
-                        cur = cur.next
-            elif(self._buckets[i].value == self._hash_function(key)):
+        for i in range(self.capacity):
+            if(self._buckets[i].contains(key)):
                 return True
         return False
         
@@ -259,16 +241,11 @@ class HashMap:
         #Initialize links
         n = 0
         #Initialize buckets
-        m = 0
-        for i in range(self.size):
-            if(self._buckets[i].size > 0):
-                m+=1
-                cur = self._buckets[i].head
-                while(cur.next !=None):
-                    n+=1
-                    cur = cur.next
-            else:
-                m+=1
+        m = self.capacity
+        for i in range(self.capacity):
+            if(self._buckets[i] != None):
+                n+=self._buckets[i].size
+                
         if(m>0):
             return (float)(n/m)
         else:
