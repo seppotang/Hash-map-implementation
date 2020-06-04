@@ -53,8 +53,14 @@ def top_words(source, number):
             for w in words:
                 ht.put(w)
                 
-    for i in range(ht.capacity):
-        tuples.append(ht._bubbles[i].size)
+    word = None
+    count = None
+    
+    for i in range(number):
+        for j in range(ht.size):
+            #Find highest amount
+        #Insert highest amount as #1
+        tuples.append(word, count)
     
     
 #print(top_words("alice.txt",10))  # COMMENT THIS OUT WHEN SUBMITTING TO GRADESCOPE
