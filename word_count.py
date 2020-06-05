@@ -62,7 +62,7 @@ def top_words(source, number):
         if cur.head is not None:
             while(cur != None):
                 #Buffer key pair into tuples
-                tuples.append(cur._buckets[i].key, cur.get(key))
+                tuples.append(cur.key, cur.get(key))
                 
                 #Go to next
                 cur = cur.next
