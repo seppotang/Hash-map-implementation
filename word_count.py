@@ -71,6 +71,10 @@ def top_words(source, number):
                 #Go to next
                 cur = cur.next
                     
-    return tuples
+    tuples = sorted(tuples, key = lambda x: x[1])
+    
+    for j in range(numbers):
+        newTuples.append(tuples[j])
+    return newTuples
     
 print(top_words("alice.txt",10))  # COMMENT THIS OUT WHEN SUBMITTING TO GRADESCOPE
