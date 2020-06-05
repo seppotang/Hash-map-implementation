@@ -186,6 +186,8 @@ class HashMap:
                     if(cur.key == key):
                         cur.value = value
                         break
+                    else:
+                        cur = cur.next
             else:
                 self._buckets[index].head.value = value
         else:
