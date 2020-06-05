@@ -66,7 +66,7 @@ def top_words(source, number):
             cur = cur.head
             while(cur != None):
                 #Buffer key pair into tuples
-                tuples.append(cur.key, cur.value)
+                tuples.append((cur.key, cur.value))
                 
                 #Go to next
                 cur = cur.next
