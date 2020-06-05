@@ -50,8 +50,11 @@ def top_words(source, number):
         for line in f:
             words = rgx.findall(line)
             for w in words:
-                #Buffer into hash map
-                ht.put(w,ht.get(w)+1)
+                if(ht.get(w) is None):
+                    ht.put(w,1)
+                else:
+                    #Buffer into hash map
+                    ht.put(w,ht.get(w)+1)
     
     #Handle sorting
     tuples = []
