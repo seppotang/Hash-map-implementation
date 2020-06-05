@@ -63,6 +63,7 @@ def top_words(source, number):
     for i in range(ht.capacity):
         cur = ht._buckets[i]
         if cur.head is not None:
+            cur = cur.head
             while(cur != None):
                 #Buffer key pair into tuples
                 tuples.append(cur.key, cur.get(key))
