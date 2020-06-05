@@ -72,6 +72,7 @@ def top_words(source, number):
                 cur = cur.next
                     
     tuples = sorted(tuples, key = lambda x: x[1])
+    newTuples = []
     
     for j in range(number):
         newTuples.append(tuples[j])
