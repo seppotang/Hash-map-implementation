@@ -44,28 +44,23 @@ def top_words(source, number):
 
     ht = HashMap(2500,hash_function_2)
 
-    tuples = []
     # This block of code will read a file one word as a time and
     # put the word in `w`. It should be left as starter code.
     with open(source) as f:
         for line in f:
             words = rgx.findall(line)
             for w in words:
-                ht.put(w)
-                
-    word = None
-    count = None
-    prev = None
-    cur = None
+                #Buffer into hash map
+                ht.put(w,ht.get(w)+1)
+    
+    #Handle sorting
+    tuples = []
     
     for i in range(number):
-        for key in keys:
-            cur = ht.get(key)
-            if(cur.size > count):
-                
-            #Find highest amount
-        #Insert highest amount as #1
-        tuples.append(word, count)
+        for w in words:
+            if(ht.get(w) > 
+                tuples.append((w, ht.get(w)))
     
+    return tuples
     
-#print(top_words("alice.txt",10))  # COMMENT THIS OUT WHEN SUBMITTING TO GRADESCOPE
+print(top_words("alice.txt",10))  # COMMENT THIS OUT WHEN SUBMITTING TO GRADESCOPE
