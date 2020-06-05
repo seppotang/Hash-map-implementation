@@ -56,11 +56,17 @@ def top_words(source, number):
     #Handle sorting
     tuples = []
     
-    for i in range(number):
-        for w in words:
-            if(ht.get(w) > 
-                tuples.append((w, ht.get(w)))
     
+    for i in range(ht.capacity):
+        cur = ht._buckets[i]
+        if cur.head is not None:
+            while(cur != None):
+                #Buffer key pair into tuples
+                tuples.append(cur._buckets[i].key, cur.get(key))
+                
+                #Go to next
+                cur = cur.next
+                    
     return tuples
     
 print(top_words("alice.txt",10))  # COMMENT THIS OUT WHEN SUBMITTING TO GRADESCOPE
