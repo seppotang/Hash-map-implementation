@@ -55,9 +55,14 @@ def top_words(source, number):
                 
     word = None
     count = None
+    prev = None
+    cur = None
     
     for i in range(number):
-        for j in range(ht.size):
+        for key in keys:
+            cur = ht.get(key)
+            if(cur.size > count):
+                
             #Find highest amount
         #Insert highest amount as #1
         tuples.append(word, count)
